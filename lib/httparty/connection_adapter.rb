@@ -103,6 +103,10 @@ module HTTParty
         http = Net::HTTP.new(host, port)
       end
 
+      if options[:socks_proxyaddr] && options[:socks_proxyport]
+        http = Net::HTTP::SOCKSProxy(options[:socks_proxyaddr], options[:socks_proxyport]).new(uri.host, uri.port)
+      end
+
       http.use_ssl = ssl_implied?(uri)
 
       attach_ssl_certificates(http, options)
